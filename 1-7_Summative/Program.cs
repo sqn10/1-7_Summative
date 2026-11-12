@@ -13,6 +13,8 @@ namespace _1_7_Summative
         }
         public static void Intro()
         {
+            bool done = false;
+
             string standardBanner = FiggleFonts.SlantSmall.Render("Rock Paper Scissors");
             Typer(standardBanner, 5);
 
@@ -33,17 +35,17 @@ namespace _1_7_Summative
 
             input = Console.ReadLine();
 
-            while (true)
+            while (!done)
             {
                 if (input.ToUpper() == "Y")
                 {
                     Rules();
-                    break;
+                    done = true;
                 }
                 else if (input.ToUpper() == "N")
                 {
                     Game();
-                    break;
+                    done = true;
 
                 }
                 else
@@ -57,6 +59,8 @@ namespace _1_7_Summative
         }
         public static void Game()
         {
+            bool done = false;
+
             Console.Clear();
 
             double userMoney = 100.00;
@@ -67,10 +71,32 @@ namespace _1_7_Summative
             Random generator = new Random();
             computerChoice = generator.Next(0, 2);
 
-            Typer("How much to you want to bet?"); Console.WriteLine();
+            Typer("How much to you want to bet?: $");
             Double.TryParse(Console.ReadLine(), out userBet);
 
-            Console.WriteLine(); Typer("The computer is choosing"); Loader(200);
+            while (!done)
+            {
+                if (userBet > 100 || userBet < 0.01)
+                {
+                    Typer("Your bet may not be equal to or less than 0, or greater than 100. Please enter valid input.", 10); Console.WriteLine();
+                    Typer("If you are putting in a letter, please,"); Typer(" learn the difference!", 100);
+                    Console.WriteLine();
+                    Typer("Enter your bet: $");
+                    Double.TryParse(Console.ReadLine(), out userBet);
+
+                }
+                else
+                {
+                    done = true;
+                }
+
+            }
+
+            Console.WriteLine(); Typer("The computer is choosing its move"); Loader(1000, 3);
+
+            Console.WriteLine();
+
+            Typer("Now choose yours. R for rock, P for paper, S for scissors.")
         }
         public static void Rules()
         {
@@ -90,7 +116,11 @@ namespace _1_7_Summative
             Typer("You will then see if you won, both your move and the money.");
             Console.WriteLine();
             Typer("When you have no money left, the computer will ask if you want to restart, or quit and display your winnings/losses.");
-
+            Console.WriteLine();
+            Console.WriteLine();
+            Typer("You can also choose at any time between turns to display your winnings/losses.");
+            Console.WriteLine();
+            Typer("Once you quit the game, or start it again, your data will be lost.");
             Console.WriteLine();
             Console.WriteLine();
 
@@ -107,13 +137,13 @@ namespace _1_7_Summative
                 Thread.Sleep(length);
             }
         }
-        public static void Loader(int length)
+        public static void Loader(int lengthInMs, int timesToRpt)
         {
-            Console.Write(".");
-            Thread.Sleep(length);
-            Console.Write(".");
-            Thread.Sleep(length);
-            Console.Write(".");
+            for (int i = 0; i < timesToRpt; i++)
+            {
+                Thread.Sleep(lengthInMs);
+                Console.Write(".");
+            }
         }
     }
 }
