@@ -59,31 +59,39 @@ namespace _1_7_Summative
         }
         public static void Game()
         {
-            bool done = false;
-
             Console.Clear();
+
+            bool done = false;
 
             double userMoney = 100.00;
             double userBet = 0;
             int userChoice;
+            string userPrintChoice = "";
+
             int computerChoice;
+            string computerPrintChoice = "";
+
 
             Random generator = new Random();
             computerChoice = generator.Next(0, 2);
 
-            Typer("How much to you want to bet?: $");
+            Typer("How much do you want to bet?: $");
             Double.TryParse(Console.ReadLine(), out userBet);
 
             while (!done)
             {
-                if (userBet > 100 || userBet < 0.01)
+                if (userBet > userMoney || userBet < 0.01)
                 {
-                    Typer("Your bet may not be equal to or less than 0, or greater than 100. Please enter valid input.", 10); Console.WriteLine();
+                    Console.Clear();
+
+                    Typer("Your bet may not be equal to or less than 0, or greater than what you have. Please provide valid input.", 10); Console.WriteLine();
                     Typer("If you are putting in a letter, please,"); Typer(" learn the difference!", 100);
+
                     Console.WriteLine();
+                    Console.WriteLine();
+
                     Typer("Enter your bet: $");
                     Double.TryParse(Console.ReadLine(), out userBet);
-
                 }
                 else
                 {
@@ -91,12 +99,58 @@ namespace _1_7_Summative
                 }
 
             }
+            done = false;
 
-            Console.WriteLine(); Typer("The computer is choosing its move"); Loader(1000, 3);
+            Console.WriteLine(); Typer("The computer is choosing its move"); Loader(1000, 3); Console.Write(" DONE.");
+            if (computerChoice == 0)
+            {
+                computerPrintChoice = "Rock";
+            }
+            else if (computerChoice == 1)
+            {
+                computerPrintChoice = "Paper";
+            }
+            else if (computerChoice == 2)
+            {
+                computerPrintChoice = "Scissors";
+            }
 
             Console.WriteLine();
+            Console.WriteLine();
 
-            Typer("Now choose yours. R for rock, P for paper, S for scissors.")
+            Typer("Now choose yours. 1 for rock, 2 for paper, 3 for scissors: ");
+            Int32.TryParse(Console.ReadLine(), out userChoice);
+
+            if (userChoice == 1)
+            {
+                userPrintChoice = "Rock";
+            }
+            else if (userChoice == 2)
+            {
+                userPrintChoice = "Paper";
+            }
+            else if (userChoice == 3)
+            {
+                userPrintChoice = "Scissors";
+            }
+
+                while (!done)
+                {
+                    if (userChoice <= 0 || userChoice > 3)
+                    {
+                        Console.WriteLine();
+                        Typer("Invalid input, try again: ");
+                        Int32.TryParse(Console.ReadLine(), out userChoice);
+                    }
+                    else
+                    {
+                        done = true;
+                    }
+                }
+            done = false;
+
+            Console.WriteLine();
+            Typer("You picked " + userPrintChoice + " and the comupter picked"); Loader(500, 3); Typer(" " + computerPrintChoice.ToUpper() + "!!!");
         }
         public static void Rules()
         {
@@ -109,7 +163,7 @@ namespace _1_7_Summative
 
             Typer("This is a simple game of rock, paper, scissors, with betting involved.");
             Console.WriteLine();
-            Typer("You will first type an amount of money to bet, within $100.");
+            Typer("You will first type an amount of money to bet, as long as it's not more than you have.");
             Console.WriteLine();
             Typer("Then, the computer will make its choice. When it is done, make yours!");
             Console.WriteLine();
